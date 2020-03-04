@@ -41,7 +41,7 @@ defmodule Shopify.Request do
 
   defp build_headers(session) do
     case session.type do
-      :basic -> @headers
+      :basic -> @headers ++ ["X-Shopify-Api-Version": session.api_version]
       :oauth -> @headers ++ ["X-Shopify-Access-Token": session.access_token]
     end
   end
