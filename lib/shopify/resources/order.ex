@@ -18,7 +18,6 @@ defmodule Shopify.Order do
     Attribute,
     Address,
     Customer,
-    DiscountAllocation,
     PaymentDetails,
     ClientDetails,
     BillingAddress,
