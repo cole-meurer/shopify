@@ -4,7 +4,7 @@ defmodule Shopify.LineItem do
   @derive [Poison.Encoder]
 
   defstruct [
-    :discount_applications,
+    :discount_allocations,
     :fulfillable_quantity,
     :fulfillment_service,
     :fulfillment_status,
