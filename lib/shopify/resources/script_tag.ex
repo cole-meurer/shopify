@@ -8,6 +8,7 @@ defmodule Shopify.ScriptTag do
       :find,
       :all,
       :create,
+      :update,
       :count,
       :delete
     ]
