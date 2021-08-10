@@ -41,7 +41,7 @@ defmodule Shopify.Metafield do
     :owner_id,
     :owner_resource,
     :value,
-    :value_type,
+    :type,
     :updated_at
   ]
 
@@ -50,7 +50,7 @@ defmodule Shopify.Metafield do
     %Metafield{
       key: "",
       value: "",
-      value_type: "string",
+      type: "string",
       namespace: ""
     }
   end

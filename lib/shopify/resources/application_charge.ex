@@ -32,25 +32,6 @@ defmodule Shopify.ApplicationCharge do
     %ApplicationCharge{}
   end
 
-  @doc """
-  Requests to activate the application charge.
-
-  Returns `{:ok, resource}` or `{:error, %Shopify.Error{}}`
-
-  ## Parameters
-    - session: A `%Shopify.Session{}` struct.
-    - id: The id of the resource.
-    
-  ## Examples
-      iex> Shopify.session |> Shopify.ApplicationCharge.activate(id)
-      {:ok, %Shopify.Response{}}
-  """
-  def activate(session, id) do
-    session
-    |> Request.new(activate_url(id), %{}, singular_resource())
-    |> Client.post()
-  end
-
   @doc false
   def find_url(id), do: @plural <> "/#{id}.json"
 
