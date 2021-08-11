@@ -36,25 +36,6 @@ defmodule Shopify.RecurringApplicationCharge do
     :updated_at
   ]
 
-  @doc """
-  Requests to activate the recurring charge.
-
-  Returns `{:ok, resource}` or `{:error, %Shopify.Error{}}`
-
-  ## Parameters
-    - session: A `%Shopify.Session{}` struct.
-    - id: The id of the resource.
-    
-  ## Examples
-      iex> Shopify.session |> Shopify.RecurringApplicationCharge.activate(id)
-      {:ok, %Shopify.RecurringApplicationCharge{}}
-  """
-  def activate(session, id) do
-    session
-    |> Request.new(activate_url(id), %{}, singular_resource())
-    |> Client.post()
-  end
-
   @doc false
   def empty_resource do
     %RecurringApplicationCharge{}
