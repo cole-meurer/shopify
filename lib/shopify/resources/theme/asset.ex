@@ -3,7 +3,7 @@ defmodule Shopify.Theme.Asset do
   @singular "asset"
   @plural "assets"
 
-  alias Shopify.{Client, Request, Session}
+  alias Shopify.{Client, Request, Response, Session}
 
   use Shopify.NestedResource,
     import: [
@@ -41,7 +41,7 @@ defmodule Shopify.Theme.Asset do
   @doc """
   Requests to create a new resource.
 
-  Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`
+  Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`.
 
   ## Parameters
     - session: A `%Shopify.Session{}` struct.
@@ -61,9 +61,32 @@ defmodule Shopify.Theme.Asset do
   end
 
   @doc """
+  Requests to create a new resource.
+
+  Returns `{:ok, %Shopify.Response{}}` or raises an exception.
+
+  ## Parameters
+    - session: A `%Shopify.Session{}` struct.
+    - top_id: The id of the top-level resource.
+    - new_resource: A struct of the resource being created.
+
+  ## Examples
+      iex> Shopify.session |> Shopify.Theme.Asset.create!(theme_id)
+      %Shopify.Response{}
+  """
+  def create!(%Session{} = session, top_id, new_resource) do
+    body = new_resource |> to_json
+
+    session
+    |> Request.new(all_url(top_id), %{}, empty_resource(), body)
+    |> Client.put()
+    |> Response.check_for_errors!()
+  end
+
+  @doc """
   Requests to update a resource by id.
 
-  Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Error{}}`
+  Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Error{}}`.
 
   ## Parameters
     - session: A `%Shopify.Session{}` struct.
@@ -80,5 +103,28 @@ defmodule Shopify.Theme.Asset do
     session
     |> Request.new(all_url(top_id), %{}, empty_resource(), body)
     |> Client.put()
+  end
+
+  @doc """
+  Requests to update a resource by id.
+
+  Returns `%Shopify.Response{}` or raises an exception.
+
+  ## Parameters
+    - session: A `%Shopify.Session{}` struct.
+    - top_id: The id of the top-level resource.
+    - updated_resource: A struct of the resource being updated.
+
+  ## Examples
+      iex> Shopify.session |> Shopify.Theme.Asset.update!(theme_id)
+      %Shopify.Response{}
+  """
+  def update!(%Session{} = session, top_id, updated_resource) do
+    body = updated_resource |> to_json
+
+    session
+    |> Request.new(all_url(top_id), %{}, empty_resource(), body)
+    |> Client.put()
+    |> Response.check_for_errors!()
   end
 end

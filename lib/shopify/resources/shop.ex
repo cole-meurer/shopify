@@ -1,7 +1,7 @@
 defmodule Shopify.Shop do
   @derive [Poison.Encoder]
 
-  alias Shopify.{Shop, Client, Request}
+  alias Shopify.{Shop, Client, Request, Response}
 
   defstruct [
     :address1,
@@ -52,18 +52,37 @@ defmodule Shopify.Shop do
   @doc """
   Requests details for the shop relevant to the session.
 
-  Returns `{:ok, shop}` or `{:error, %Shopify.Error{}}`
+  Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Error{}}`.
 
   ## Parameters
     - session: A `%Shopify.Session{}` struct.
 
   ## Examples
-      iex> Shopify.session |> Shopify.Shop.current
-      {:ok, %Shopify.Shop{}}
+      iex> Shopify.session |> Shopify.Shop.current()
+      {:ok, %Shopify.Response{}}
   """
   def current(session) do
     session
     |> Request.new("shop.json", %{}, %{"shop" => %Shop{}})
     |> Client.get()
+  end
+
+  @doc """
+  Requests details for the shop relevant to the session.
+
+  Returns `%Shopify.Response{}` or raises an exception.
+
+  ## Parameters
+    - session: A `%Shopify.Session{}` struct.
+
+  ## Examples
+      iex> Shopify.session |> Shopify.Shop.current!()
+      %Shopify.Response{}
+  """
+  def current!(session) do
+    session
+    |> Request.new("shop.json", %{}, %{"shop" => %Shop{}})
+    |> Client.get()
+    |> Response.check_for_errors!()
   end
 end
