@@ -35,9 +35,7 @@ defmodule Shopify.Response do
   defp parse_resource(%{__struct__: _} = resource), do: resource
   defp parse_resource(resource), do: resource |> Map.values() |> List.first()
 
-  def check_for_errors!({:ok, %__MODULE__{} = response}) do
-    {:ok, response}
-  end
+  def check_for_errors!({:ok, %__MODULE__{} = response}), do: response
 
   def check_for_errors!({:error, %__MODULE__{code: 429, data: data} = response}) do
     raise Errors.ExcessUsageError, message: data, response: response
