@@ -3,13 +3,13 @@ defmodule Shopify.NestedResource do
     import_functions = options[:import] || []
 
     quote bind_quoted: [import_functions: import_functions] do
-      alias Shopify.{Client, Request, Session}
+      alias Shopify.{Client, Request, Response, Session}
 
       if :find in import_functions do
         @doc """
         Requests a resource by id.
 
-        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`
+        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`.
 
         ## Parameters
           - session: A `%Shopify.Session{}` struct.
@@ -26,13 +26,36 @@ defmodule Shopify.NestedResource do
           |> Request.new(find_url(top_id, nest_id), params, singular_resource())
           |> Client.get()
         end
+
+        @doc """
+        Requests a resource by id.
+
+        Returns `%Shopify.Response{}` or raises an exception.
+
+        ## Parameters
+          - session: A `%Shopify.Session{}` struct.
+          - top_id: The id of the top-level resource.
+          - nest_id: The id of the nest-level resource.
+          - params: Any additional query params.
+
+        ## Examples
+            iex> Shopify.session |> Shopify.Transaction.find!(order_id, transaction_id)
+            %Shopify.Response{}
+        """
+        def find!(%Session{} = session, top_id, nest_id, params \\ %{})
+            when not is_map(nest_id) do
+          session
+          |> Request.new(find_url(top_id, nest_id), params, singular_resource())
+          |> Client.get()
+          |> Response.check_for_errors!()
+        end
       end
 
       if :all in import_functions do
         @doc """
         Requests all resources.
 
-        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`
+        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`.
 
         ## Parameters
           - session: A `%Shopify.Session{}` struct.
@@ -48,13 +71,34 @@ defmodule Shopify.NestedResource do
           |> Request.new(all_url(top_id), params, plural_resource())
           |> Client.get()
         end
+
+        @doc """
+        Requests all resources.
+
+        Returns `%Shopify.Response{}` or raises an exception.
+
+        ## Parameters
+          - session: A `%Shopify.Session{}` struct.
+          - top_id: The id of the top-level resource.
+          - params: Any additional query params.
+
+        ## Examples
+            iex> Shopify.session |> Shopify.Transaction.all!(order_id)
+            %Shopify.Response{}
+        """
+        def all!(%Session{} = session, top_id, params \\ %{}) when not is_map(top_id) do
+          session
+          |> Request.new(all_url(top_id), params, plural_resource())
+          |> Client.get()
+          |> Response.check_for_errors!()
+        end
       end
 
       if :count in import_functions do
         @doc """
         Requests the resource count.
 
-        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`
+        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`.
 
         ## Parameters
           - session: A `%Shopify.Session{}` struct.
@@ -70,13 +114,34 @@ defmodule Shopify.NestedResource do
           |> Request.new(count_url(top_id), params, nil)
           |> Client.get()
         end
+
+        @doc """
+        Requests the resource count.
+
+        Returns `%Shopify.Response{}` or raises an exception.
+
+        ## Parameters
+          - session: A `%Shopify.Session{}` struct.
+          - top_id: The id of the top-level resource.
+          - params: Any additional query params.
+
+        ## Examples
+            iex> Shopify.session |> Shopify.Transaction.count!(order_id)
+            %Shopify.Response{}
+        """
+        def count!(%Session{} = session, top_id, params \\ %{}) when not is_map(top_id) do
+          session
+          |> Request.new(count_url(top_id), params, nil)
+          |> Client.get()
+          |> Response.check_for_errors!()
+        end
       end
 
       if :create in import_functions do
         @doc """
         Requests to create a new resource.
 
-        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`
+        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`.
 
         ## Parameters
           - session: A `%Shopify.Session{}` struct.
@@ -94,13 +159,36 @@ defmodule Shopify.NestedResource do
           |> Request.new(all_url(top_id), %{}, singular_resource(), body)
           |> Client.post()
         end
+
+        @doc """
+        Requests to create a new resource.
+
+        Returns `%Shopify.Response{}` raises an exception.
+
+        ## Parameters
+          - session: A `%Shopify.Session{}` struct.
+          - top_id: The id of the top-level resource.
+          - new_resource: A struct of the resource being created.
+
+        ## Examples
+            iex> Shopify.session |> Shopify.Transaction.create!(order_id)
+            %Shopify.Response{}
+        """
+        def create!(%Session{} = session, top_id, new_resource) do
+          body = new_resource |> to_json
+
+          session
+          |> Request.new(all_url(top_id), %{}, singular_resource(), body)
+          |> Client.post()
+          |> Response.check_for_errors!()
+        end
       end
 
       if :update in import_functions do
         @doc """
         Requests to update a resource by id.
 
-        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Error{}}`
+        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Error{}}`.
 
         ## Parameters
           - session: A `%Shopify.Session{}` struct.
@@ -119,13 +207,37 @@ defmodule Shopify.NestedResource do
           |> Request.new(find_url(top_id, nest_id), %{}, singular_resource(), body)
           |> Client.put()
         end
+
+        @doc """
+        Requests to update a resource by id.
+
+        Returns `%Shopify.Response{}` or raises an exception.
+
+        ## Parameters
+          - session: A `%Shopify.Session{}` struct.
+          - top_id: The id of the top-level resource.
+          - nest_id: The id of the nested-level resource.
+          - updated_resource: A struct of the resource being updated.
+
+        ## Examples
+            iex> Shopify.session |> Shopify.CustomerAddress.update!(customer_id, address_id)
+            %Shopify.Response{}
+        """
+        def update!(%Session{} = session, top_id, nest_id, updated_resource) do
+          body = updated_resource |> to_json
+
+          session
+          |> Request.new(find_url(top_id, nest_id), %{}, singular_resource(), body)
+          |> Client.put()
+          |> Response.check_for_errors!()
+        end
       end
 
       if :delete in import_functions do
         @doc """
         Requests to delete a resource by id.
 
-        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`
+        Returns `{:ok, %Shopify.Response{}}` or `{:error, %Shopify.Response{}}`.
 
         ## Parameters
           - session: A `%Shopify.Session{}` struct.
@@ -140,6 +252,27 @@ defmodule Shopify.NestedResource do
           session
           |> Request.new(find_url(top_id, nest_id), %{}, nil)
           |> Client.delete()
+        end
+
+        @doc """
+        Requests to delete a resource by id.
+
+        Returns `%Shopify.Response{}` or raises an exception.
+
+        ## Parameters
+          - session: A `%Shopify.Session{}` struct.
+          - top_id: The id of the top-level resource.
+          - nest_id: The id of the nested resource.
+
+        ## Examples
+            iex> Shopify.session |> Shopify.CustomerAddress.delete!(customer_id, address_id)
+            %Shopify.Response{}
+        """
+        def delete!(%Session{} = session, top_id, nest_id) do
+          session
+          |> Request.new(find_url(top_id, nest_id), %{}, nil)
+          |> Client.delete()
+          |> Response.check_for_errors!()
         end
       end
 
