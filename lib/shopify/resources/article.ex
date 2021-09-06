@@ -6,8 +6,8 @@ defmodule Shopify.Article do
   @plural "articles"
 
   alias Shopify.{
-    Image,
-    Metafield
+    Metafield,
+    Product
   }
 
   use Shopify.NestedResource,
@@ -42,7 +42,7 @@ defmodule Shopify.Article do
   @doc false
   def empty_resource do
     %__MODULE__{
-      image: %Image{},
+      image: %Product.Image{},
       metafields: [%Metafield{}]
     }
   end

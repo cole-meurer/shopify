@@ -332,7 +332,6 @@ Or for `Shopify.Product.find(1)`
 - Order.Fullfillment (find, all, count, create, update, complete, open, cancel)
 - Order.Fullfillment.Event (find, all, delete)
 - FulfillmentService (find, all, create, update, delete)
-- Image (ProductImage) (find, all, create, update, delete, count)
 - InventoryLevel (all, delete)
 - LineItem
 - Location (find, all, count)
@@ -350,6 +349,7 @@ Or for `Shopify.Product.find(1)`
 - PriceRule.DiscountCode (find, all, create, update, delete)
 - Product (find, all, create, update, delete, count)
 - Product.Event (all)
+- Product.Image (ProductImage) (find, all, create, update, delete, count)
 - ProductListing (find, all, create, update, delete, count, product_ids)
 - RecurringApplicationCharge (find, all, create, activate, delete)
 - Redirect (find, all, create, update, delete, count)

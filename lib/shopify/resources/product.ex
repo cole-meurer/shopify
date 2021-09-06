@@ -16,7 +16,6 @@ defmodule Shopify.Product do
   alias Shopify.{
     Product,
     Variant,
-    Image,
     Option
   }
 
@@ -45,7 +44,7 @@ defmodule Shopify.Product do
   def empty_resource do
     %Product{
       variants: [%Variant{}],
-      images: [%Image{}],
+      images: [%Product.Image{}],
       options: [%Option{}]
     }
   end
