@@ -1,4 +1,4 @@
-defmodule Shopify.Image do
+defmodule Shopify.Product.Image do
   @derive [Poison.Encoder]
   @singular "image"
   @plural "images"
@@ -13,10 +13,6 @@ defmodule Shopify.Image do
       :delete
     ]
 
-  alias Shopify.{
-    Image
-  }
-
   defstruct [
     :alt,
     :created_at,
@@ -30,7 +26,7 @@ defmodule Shopify.Image do
 
   @doc false
   def empty_resource do
-    %Image{}
+    %__MODULE__{}
   end
 
   @doc false
