@@ -17,6 +17,7 @@ defmodule Shopify.Product.Image do
     :alt,
     :created_at,
     :id,
+    :metafields,
     :position,
     :product_id,
     :src,
