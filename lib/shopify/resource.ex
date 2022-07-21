@@ -41,9 +41,7 @@ defmodule Shopify.Resource do
             %Shopify.Response{}
         """
         def find!(session, id, params \\ %{}) do
-          session
-          |> Request.new(find_url(id), params, singular_resource())
-          |> Client.get()
+          find(session, id, params)
           |> Response.check_for_errors!()
         end
       end
@@ -82,9 +80,7 @@ defmodule Shopify.Resource do
             %Shopify.Response{}
         """
         def all!(session, params \\ %{}) do
-          session
-          |> Request.new(all_url(), params, plural_resource())
-          |> Client.get()
+          all(session, params)
           |> Response.check_for_errors!()
         end
       end
@@ -123,9 +119,7 @@ defmodule Shopify.Resource do
             %Shopify.Response{}
         """
         def count!(session, params \\ %{}) do
-          session
-          |> Request.new(count_url(), params, nil)
-          |> Client.get()
+          count(session, params)
           |> Response.check_for_errors!()
         end
       end
@@ -166,9 +160,7 @@ defmodule Shopify.Resource do
         """
         @spec search!(%Shopify.Session{}, map) :: list
         def search!(session, params \\ %{}) do
-          session
-          |> Request.new(search_url(), params, plural_resource())
-          |> Client.get()
+          search(session, params)
           |> Response.check_for_errors!()
         end
       end
@@ -211,11 +203,7 @@ defmodule Shopify.Resource do
         """
         @spec create!(%Shopify.Session{}, map) :: list
         def create!(session, new_resource) do
-          body = new_resource |> to_json
-
-          session
-          |> Request.new(all_url(), %{}, singular_resource(), body)
-          |> Client.post()
+          create(session, new_resource)
           |> Response.check_for_errors!()
         end
       end
@@ -258,11 +246,7 @@ defmodule Shopify.Resource do
             %Shopify.Response{}
         """
         def update!(session, id, updated_resource) do
-          body = updated_resource |> to_json
-
-          session
-          |> Request.new(find_url(id), %{}, singular_resource(), body)
-          |> Client.put()
+          update(session, id, updated_resource)
           |> Response.check_for_errors!()
         end
       end
@@ -301,9 +285,7 @@ defmodule Shopify.Resource do
             %Shopify.Response{}
         """
         def delete!(session, id) do
-          session
-          |> Request.new(find_url(id), %{}, nil)
-          |> Client.delete()
+          delete(session, id)
           |> Response.check_for_errors!()
         end
       end
