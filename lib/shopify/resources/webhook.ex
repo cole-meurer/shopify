@@ -37,11 +37,11 @@ defmodule Shopify.Webhook do
   ## Parameters
     - hmac: The value held in the 'X-Shopify-Hmac-SHA256' header.
     - body: The body of the webhook.
-    
+
   ## Examples
       iex> Shopify.Webhook.authenticate(hmac, body)
       true
-      
+
   """
   def authenticate(hmac, body) when is_binary(hmac) and is_binary(body) do
     :crypto.mac(:hmac, :sha256, Config.get(:client_secret), body)
