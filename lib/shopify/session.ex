@@ -4,26 +4,28 @@ defmodule Shopify.Session do
   alias Shopify.{Config, Session}
 
   defstruct [
-    :type,
-    :shop_name,
-    :api_key,
-    :password,
     :access_token,
+    :api_key,
+    :api_version,
     :client_id,
     :client_secret,
-    :api_version,
-    :req_opts
+    :password,
+    :refresh_token,
+    :req_opts,
+    :shop_name,
+    :type
   ]
 
   @type t :: %__MODULE__{
-          type: :basic | :oauth,
-          shop_name: binary(),
-          api_key: binary() | nil,
-          password: binary() | nil,
           access_token: binary() | nil,
-          client_id: binary() | nil,
+          api_key: binary() | nil,
           api_version: binary() | nil,
-          req_opts: Keyword.t() | nil
+          client_id: binary() | nil,
+          password: binary() | nil,
+          refresh_token: binary() | nil,
+          req_opts: Keyword.t() | nil,
+          shop_name: binary(),
+          type: :basic | :oauth
         }
 
   @spec new(binary, binary, binary) :: Shopify.Session.t()
