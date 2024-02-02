@@ -63,7 +63,7 @@ defmodule Shopify.CustomerSavedSearchTest do
 
   test "client can request to update an customer_saved_search" do
     assert {:ok, response} = Shopify.session() |> CustomerSavedSearch.find(1)
-    assert "Accepts Marketing" == response.data.name
+    assert "Has one order" == response.data.name
     update = %{response.data | name: "Update"}
     assert {:ok, response} = Shopify.session() |> CustomerSavedSearch.update(1, update)
     assert "Update" == response.data.name
