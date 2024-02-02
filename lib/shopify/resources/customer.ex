@@ -21,12 +21,12 @@ defmodule Shopify.Customer do
   }
 
   defstruct [
-    :accepts_marketing,
     :addresses,
     :created_at,
     :currency,
     :default_address,
     :email,
+    :email_marketing_consent,
     :phone,
     :first_name,
     :id,

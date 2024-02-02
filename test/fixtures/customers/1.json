@@ -2,7 +2,11 @@
   "customer": {
     "id": 207119551,
     "email": "bob.norman@hostmail.com",
-    "accepts_marketing": false,
+    "email_marketing_consent": {
+      "marketing_state": "not_subscribed",
+      "opt_in_level": "confirmed_opt_in",
+      "consent_updated_at": "2022-04-01T11:22:06-04:00"
+    },
     "created_at": "2018-05-07T15:33:38-04:00",
     "updated_at": "2018-05-07T15:33:38-04:00",
     "first_name": "Bob",
