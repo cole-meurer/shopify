@@ -187,7 +187,6 @@
           "source": "shopify",
           "phone": null,
           "requested_fulfillment_service_id": null,
-          "delivery_category": null,
           "carrier_identifier": null,
           "discounted_price": "0.00",
           "tax_lines": []

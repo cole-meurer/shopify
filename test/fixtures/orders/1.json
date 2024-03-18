@@ -185,7 +185,6 @@
         "source": "shopify",
         "phone": null,
         "requested_fulfillment_service_id": null,
-        "delivery_category": null,
         "carrier_identifier": null,
         "tax_lines": [
         ]

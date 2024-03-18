@@ -22,7 +22,6 @@
                     "source": "shopify",
                     "title": "Standard Shipping",
                     "phone": null,
-                    "delivery_category": null,
                     "carrier_identifier": null,
                     "carrier_service_id": null,
                     "api_client_id": null,
